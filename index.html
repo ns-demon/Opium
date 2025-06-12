@@ -64,6 +64,13 @@
       filter: drop-shadow(0 0 10px red);
     }
 
+    #countdown {
+      font-size: 2em;
+      color: red;
+      margin-top: 20px;
+      animation: pulse 1s infinite;
+    }
+
     @keyframes glitch {
       0% {
         transform: translate(0);
@@ -101,15 +108,49 @@
   <div class="container">
     <h1>⚠ FBI SEIZURE NOTICE ⚠</h1>
     <img class="fbi-seal" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/US-FBI-ShadedSeal.svg/2000px-US-FBI-ShadedSeal.svg.png" alt="FBI Seal" />
-    <p>
-      This website has been seized by the Federal Bureau of Investigation (FBI) pursuant to a warrant issued under 18 U.S.C. §§ 981, 982, and 1956.
-    </p>
-    <p>
-      All files, data logs, and IP addresses have been collected and archived. Continued attempts to access this domain may result in prosecution.
-    </p>
-    <p>
-      Case #FBI-CYBER-0425-777 | Monitored under U.S. Code Title 18 § 1030
-    </p>
+    <p>This website has been seized by the Federal Bureau of Investigation (FBI) pursuant to a warrant issued under 18 U.S.C. §§ 981, 982, and 1956.</p>
+    <p>All files, data logs, and IP addresses have been collected and archived. Continued attempts to access this domain may result in prosecution.</p>
+    <p>Case #FBI-CYBER-0425-777 | Monitored under U.S. Code Title 18 § 1030</p>
+
+    <div id="countdown">Next investigation in: 00:00:30</div>
   </div>
+
+  <!-- FBI-Style Intense Audio -->
+  <audio id="fbiAudio" autoplay loop>
+    <source src="https://files.catbox.moe/h8g0r3.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Force audio volume to 100% after autoplay begins
+    const audio = document.getElementById("fbiAudio");
+    audio.volume = 1.0;
+
+    // Try autoplay workaround for some browsers
+    window.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+      }
+    });
+
+    // Countdown timer
+    let time = 30;
+    const countdownEl = document.getElementById("countdown");
+
+    const updateTimer = () => {
+      if (time <= 0) {
+        countdownEl.innerText = "Investigation in progress...";
+        countdownEl.style.color = "white";
+        return;
+      }
+
+      const minutes = String(Math.floor(time / 60)).padStart(2, '0');
+      const seconds = String(time % 60).padStart(2, '0');
+      countdownEl.innerText = `Next investigation in: ${minutes}:${seconds}`;
+      time--;
+    };
+
+    setInterval(updateTimer, 1000);
+  </script>
 </body>
 </html>
