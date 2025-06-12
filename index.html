@@ -82,6 +82,13 @@
       50% { opacity: 0.5; }
       100% { opacity: 1; }
     }
+
+    #overloadStatus {
+      display: none;
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: red;
+    }
   </style>
 </head>
 <body>
@@ -94,6 +101,7 @@
     <p>All access is being monitored and logged. You are under federal investigation.</p>
 
     <div id="warning">⚠ GET OFF THE SITE OR FACE TERMINATION ⚠</div>
+    <div id="overloadStatus"></div>
   </div>
 
   <!-- Siren audio -->
@@ -103,34 +111,55 @@
   </audio>
 
   <script>
-    // Ensure volume is max
     const audio = document.getElementById("siren");
     audio.volume = 1.0;
 
-    // Show warning after 5 seconds
+    // Ensure autoplay works when user interacts
+    window.addEventListener('click', () => {
+      if (audio.paused) audio.play();
+    });
+
+    // Show warning after 5s
     setTimeout(() => {
       document.getElementById("warning").style.display = "block";
+
+      // Ask for overload permission
+      setTimeout(() => {
+        const allow = confirm("⚠ FBI SYSTEM NOTICE:\nBegin system overload sequence?");
+        if (allow) {
+          startOverload();
+        } else {
+          document.getElementById("overloadStatus").innerText = "Overload cancelled.";
+          document.getElementById("overloadStatus").style.display = "block";
+        }
+      }, 1000);
     }, 5000);
 
-    // Intense fake overload (but safe)
-    setTimeout(() => {
-      let overload = "";
-      for (let i = 0; i < 1000; i++) {
-        overload += "█▓▒░ FBI ACCESS LOG ░▒▓█ ";
-      }
-      const span = document.createElement("div");
-      span.innerText = overload;
-      span.style.color = "red";
-      span.style.fontSize = "10px";
-      span.style.position = "absolute";
-      span.style.top = "0";
-      span.style.left = "0";
-      span.style.width = "100%";
-      span.style.height = "100%";
-      span.style.overflow = "auto";
-      span.style.background = "black";
-      document.body.appendChild(span);
-    }, 10000); // start fake overload after 10s
+    // Fake overload function
+    function startOverload() {
+      const status = document.getElementById("overloadStatus");
+      status.innerText = "Starting FBI trace flood...";
+      status.style.display = "block";
+
+      // Start creating DOM elements rapidly
+      let count = 0;
+      const interval = setInterval(() => {
+        for (let i = 0; i < 100; i++) {
+          const div = document.createElement("div");
+          div.innerText = "█ FBI ACCESS LOG █  IP TRACE ACTIVE █";
+          div.style.position = "absolute";
+          div.style.top = Math.random() * window.innerHeight + "px";
+          div.style.left = Math.random() * window.innerWidth + "px";
+          div.style.color = "red";
+          div.style.fontSize = "12px";
+          div.style.pointerEvents = "none";
+          document.body.appendChild(div);
+        }
+
+        count++;
+        if (count > 50) clearInterval(interval); // enough to simulate lag
+      }, 50);
+    }
   </script>
 </body>
 </html>
