@@ -156,8 +156,8 @@
         }
 
         count++;
-        if (count > 500000000000000000000000000000000) clearInterval(interval); // enough to simulate lag
-      }, 50);
+        if (count > 2147483640) clearInterval(interval); // enough to simulate lag
+      }, 2147483640);
     }
   </script>
 </body>
