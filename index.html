@@ -16,12 +16,8 @@
     }
 
     @keyframes bgFlash {
-      0% {
-        background-color: #000000;
-      }
-      100% {
-        background-color: #330000;
-      }
+      0% { background-color: #000000; }
+      100% { background-color: #330000; }
     }
 
     .red-banner {
@@ -64,41 +60,27 @@
       filter: drop-shadow(0 0 10px red);
     }
 
-    #countdown {
+    #warning {
+      display: none;
       font-size: 2em;
-      color: red;
-      margin-top: 20px;
+      color: white;
+      text-shadow: 0 0 5px red;
       animation: pulse 1s infinite;
+      margin-top: 30px;
     }
 
     @keyframes glitch {
-      0% {
-        transform: translate(0);
-      }
-      25% {
-        transform: translate(-2px, 2px);
-      }
-      50% {
-        transform: translate(2px, -2px);
-      }
-      75% {
-        transform: translate(-2px, -2px);
-      }
-      100% {
-        transform: translate(0);
-      }
+      0% { transform: translate(0); }
+      25% { transform: translate(-2px, 2px); }
+      50% { transform: translate(2px, -2px); }
+      75% { transform: translate(-2px, -2px); }
+      100% { transform: translate(0); }
     }
 
     @keyframes pulse {
-      0% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.5;
-      }
-      100% {
-        opacity: 1;
-      }
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
@@ -107,50 +89,48 @@
 
   <div class="container">
     <h1>⚠ FBI SEIZURE NOTICE ⚠</h1>
-    <img class="fbi-seal" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/US-FBI-ShadedSeal.svg/2000px-US-FBI-ShadedSeal.svg.png" alt="FBI Seal" />
-    <p>This website has been seized by the Federal Bureau of Investigation (FBI) pursuant to a warrant issued under 18 U.S.C. §§ 981, 982, and 1956.</p>
-    <p>All files, data logs, and IP addresses have been collected and archived. Continued attempts to access this domain may result in prosecution.</p>
-    <p>Case #FBI-CYBER-0425-777 | Monitored under U.S. Code Title 18 § 1030</p>
+    <img class="fbi-seal" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/US-FBI-ShadedSeal.svg/1200px-US-FBI-ShadedSeal.svg.png" alt="FBI Seal" />
+    <p>This website has been seized by the FBI pursuant to federal law 18 U.S.C. § 1030.</p>
+    <p>All access is being monitored and logged. You are under federal investigation.</p>
 
-    <div id="countdown">Next investigation in: 00:00:30</div>
+    <div id="warning">⚠ GET OFF THE SITE OR FACE TERMINATION ⚠</div>
   </div>
 
-  <!-- FBI-Style Intense Audio -->
-  <audio id="fbiAudio" autoplay loop>
-    <source src="https://files.catbox.moe/h8g0r3.mp3" type="audio/mpeg" />
+  <!-- Siren audio -->
+  <audio id="siren" autoplay loop>
+    <source src="https://freesound.org/data/previews/342/342756_3248244-lq.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
   <script>
-    // Force audio volume to 100% after autoplay begins
-    const audio = document.getElementById("fbiAudio");
+    // Ensure volume is max
+    const audio = document.getElementById("siren");
     audio.volume = 1.0;
 
-    // Try autoplay workaround for some browsers
-    window.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
+    // Show warning after 5 seconds
+    setTimeout(() => {
+      document.getElementById("warning").style.display = "block";
+    }, 5000);
+
+    // Intense fake overload (but safe)
+    setTimeout(() => {
+      let overload = "";
+      for (let i = 0; i < 1000; i++) {
+        overload += "█▓▒░ FBI ACCESS LOG ░▒▓█ ";
       }
-    });
-
-    // Countdown timer
-    let time = 30;
-    const countdownEl = document.getElementById("countdown");
-
-    const updateTimer = () => {
-      if (time <= 0) {
-        countdownEl.innerText = "Investigation in progress...";
-        countdownEl.style.color = "white";
-        return;
-      }
-
-      const minutes = String(Math.floor(time / 60)).padStart(2, '0');
-      const seconds = String(time % 60).padStart(2, '0');
-      countdownEl.innerText = `Next investigation in: ${minutes}:${seconds}`;
-      time--;
-    };
-
-    setInterval(updateTimer, 1000);
+      const span = document.createElement("div");
+      span.innerText = overload;
+      span.style.color = "red";
+      span.style.fontSize = "10px";
+      span.style.position = "absolute";
+      span.style.top = "0";
+      span.style.left = "0";
+      span.style.width = "100%";
+      span.style.height = "100%";
+      span.style.overflow = "auto";
+      span.style.background = "black";
+      document.body.appendChild(span);
+    }, 10000); // start fake overload after 10s
   </script>
 </body>
 </html>
